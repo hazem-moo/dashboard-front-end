@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@layer base {
+  h1 {
+    @apply text-4xl font-black;
+  }
+  button {
+    @apply text-center p-2.5 rounded-xl cursor-pointer;
+  }
+  .dark {
+    background-image: linear-gradient(to left, #000, #6b0000);
+    color: #fff;
+  }
+  .light {
+    color: #fff;
+    background-image: linear-gradient(to right, #00f, rgb(152, 152, 253));
+  }
+}
+
+.input {
+  border: 1px solid #fff;
+  padding: 8px;
+  border-radius: 10px;
+  transition: all 0.5s;
+  &:focus {
+    background-color: #222;
+    transform: scale(1.1);
+    text-align: center;
+  }
+}
