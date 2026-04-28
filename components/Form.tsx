@@ -1,5 +1,7 @@
 "use client";
-import React, { ChangeEvent, FormEvent, useState } from "react";
+
+import { postDataOrder } from "@/utils/types";
+import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
 
 function Form() {
   const [title, setTitle] = useState<string>("");
@@ -7,9 +9,17 @@ function Form() {
   const [price, setPrice] = useState<number | string>("");
   const [count, setCount] = useState<number | string>("");
   const [discount, setDiscount] = useState<number | string>("");
+  const btnRef = useRef<HTMLButtonElement>(null);
+
+  const PostData = async (data: postDataOrder) => {
+    const res = await fetch("/api/orders", {
+      method: "POSt",
+      body: JSON.stringify(data),
+    });
+    return res.json();
+  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
     const api = {
       data: {
         title,
@@ -19,7 +29,7 @@ function Form() {
         discount,
       },
     };
-    console.log(api);
+    await PostData(api);
   };
 
   return (
@@ -81,6 +91,7 @@ function Form() {
         <small>total:</small>
         <button
           type="submit"
+          ref={btnRef}
           className="col-span-full bg-black w-[90%] mx-auto"
         >
           create projuct

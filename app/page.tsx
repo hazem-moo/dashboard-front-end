@@ -1,3 +1,4 @@
+import DataList from "@/components/DataList";
 import Form from "@/components/Form";
 import Header from "@/components/Header";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -10,6 +11,7 @@ export default function HomePage() {
       <ThemeToggle />
       <Header />
       <Form />
+      <DataList />
     </section>
   );
 }
