@@ -28,3 +28,22 @@
     text-align: center;
   }
 }
+.count {
+  transition: all 1s linear;
+}
+.animate {
+  animation: animated 6s linear infinite;
+  font-size: 20px;
+  background-color: red;
+}
+
+@keyframes animated {
+  0%,
+  100% {
+    background-color: red;
+  }
+  10% {
+    font-weight: 600;
+    opacity: 0.2;
+  }
+}

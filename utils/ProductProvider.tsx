@@ -8,9 +8,9 @@ const ProviderProducts = createContext<undefined | PropsProductContext>(
 
 export const ProductProvider = ({ children }: PropsChildren) => {
   const [product, setProduct] = useState<getOrders[]>([]);
-  const removeProduct = (id: number) =>
+  const removeProduct = (id: number) => {
     setProduct((el) => el.filter((p) => p.id !== id));
-
+  };
   return (
     <ProviderProducts.Provider value={{ product, setProduct, removeProduct }}>
       {children}

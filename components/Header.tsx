@@ -11,7 +11,7 @@ const Header = async () => {
   return (
     <section className="flex flex-col justify-center items-center gap-5 text-center">
       <h1>{firstItem.project_title || "default data"}</h1>
-      <p>{firstItem.description || dsc}</p>
+      <q>{firstItem.description || dsc}</q>
     </section>
   );
 };

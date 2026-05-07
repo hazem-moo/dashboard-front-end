@@ -9,6 +9,7 @@ function Form() {
   const [price, setPrice] = useState<number | string>("");
   const [count, setCount] = useState<number | string>("");
   const [discount, setDiscount] = useState<number | string>("");
+  const [total, setTotal] = useState(0);
   const btnRef = useRef<HTMLButtonElement>(null);
 
   const PostData = async (data: postDataOrder) => {
@@ -27,13 +28,25 @@ function Form() {
         price,
         count,
         discount,
+        total,
       },
     };
     await PostData(api);
+    e.preventDefault();
+  };
+
+  const calcolatePrice = () => {
+    if (price !== "") {
+      const $count = count || 1;
+      const $discount = +discount || 0;
+      const allTotal = +price - $discount;
+      const totalP = allTotal * +$count;
+      setTotal(totalP);
+    }
   };
 
   return (
-    <section className="">
+    <section className="my-5">
       <form
         className="grid grid-cols-2 sm:grid-cols-5 gap-4 items-center justify-between w-full"
         onSubmit={handleSubmit}
@@ -60,6 +73,7 @@ function Form() {
         />
         <input
           type="number"
+          onKeyUp={calcolatePrice}
           placeholder="type price..."
           className="input"
           required
@@ -70,6 +84,7 @@ function Form() {
         />
         <input
           type="number"
+          onKeyUp={calcolatePrice}
           placeholder="type discount..."
           className="input"
           required
@@ -80,6 +95,7 @@ function Form() {
         />
         <input
           type="number"
+          onKeyUp={calcolatePrice}
           placeholder="type count..."
           className="input"
           required
@@ -88,7 +104,11 @@ function Form() {
             setCount(e.target.valueAsNumber)
           }
         />
-        <small>total:</small>
+        <small
+          className={`py-1.5 px-2.5 text-center ${total === 0 || isNaN(total) ? "bg-red-600" : "bg-green-800"}`}
+        >
+          total: {total === 0 || isNaN(total) ? "" : total}
+        </small>
         <button
           type="submit"
           ref={btnRef}

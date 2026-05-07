@@ -12,6 +12,8 @@ export type getOrders = {
   count: number | string;
   discount: number | string;
   id: number;
+  total: number;
+  min_count?: number;
 };
 
 export type postDataOrder = {
