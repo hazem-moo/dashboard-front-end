@@ -20,3 +20,23 @@ export const GET = async () => {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 };
+
+// delete all items
+export const DELETE = async () => {
+  try {
+    // جيب كل الـ orders الأول
+    const res = await axiosClient.get("/orders");
+    const orders = res.data.data;
+
+    // احذف كل واحد بـ id
+    await Promise.all(
+      orders.map((order: { id: number }) =>
+        axiosClient.delete(`/orders/${order.id}`),
+      ),
+    );
+
+    return NextResponse.json({ message: "All deleted" });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+};

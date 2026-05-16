@@ -28,6 +28,18 @@
     text-align: center;
   }
 }
+
+.input-u {
+  border-right: 1px solid #fff;
+  padding: 10px;
+  transition: all 0.5 linear;
+  outline: none;
+  &:focus {
+    background-color: #222;
+    transform: scale(1.1);
+    text-align: center;
+  }
+}
 .count {
   transition: all 1s linear;
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { postDataOrder } from "@/utils/types";
-import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 
 function Form() {
   const [title, setTitle] = useState<string>("");
@@ -10,7 +10,7 @@ function Form() {
   const [count, setCount] = useState<number | string>("");
   const [discount, setDiscount] = useState<number | string>("");
   const [total, setTotal] = useState(0);
-  const btnRef = useRef<HTMLButtonElement>(null);
+  const [write, setWrite] = useState("");
 
   const PostData = async (data: postDataOrder) => {
     const res = await fetch("/api/orders", {
@@ -31,8 +31,12 @@ function Form() {
         total,
       },
     };
-    await PostData(api);
-    e.preventDefault();
+    if (+count === 0) {
+      e.preventDefault();
+      setWrite("count must be more than 0");
+    } else {
+      await PostData(api);
+    }
   };
 
   const calcolatePrice = () => {
@@ -109,9 +113,9 @@ function Form() {
         >
           total: {total === 0 || isNaN(total) ? "" : total}
         </small>
+        <p className="text-white text-center col-span-full">{write}</p>
         <button
           type="submit"
-          ref={btnRef}
           className="col-span-full bg-black w-[90%] mx-auto"
         >
           create projuct

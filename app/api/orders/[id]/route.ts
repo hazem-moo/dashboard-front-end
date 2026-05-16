@@ -14,3 +14,20 @@ export const DELETE = async (
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 };
+
+export async function PUT(
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> },
+) {
+  try {
+    const { id } = await context.params;
+
+    const body = await req.json();
+
+    const res = await axiosClient.put(`/orders/${id}`, body);
+
+    return NextResponse.json(res.data);
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}

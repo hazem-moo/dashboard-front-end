@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { FaMoon, FaRegMoon } from "react-icons/fa";
 
 export default function ThemeToggle() {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(true);
 
   const toggle = () => {
     setIsDark(!isDark);
