@@ -1,9 +1,16 @@
 "use client";
 
 import { getOrders } from "@/utils/types";
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import DeleteButton from "./DeleteButton";
 import { useProduct } from "@/utils/ProductProvider";
+import { axiosClient } from "@/utils/FUNc";
 
 const Details = ({
   category,
@@ -23,6 +30,7 @@ const Details = ({
   const [newDiscount, setNewDiscount] = useState(discount);
   const [newCount, setNewCount] = useState(count);
   const [newTotal, setNewTotal] = useState(0);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const calcolatePrice = () => {
     if (newPrice !== "") {
@@ -58,28 +66,19 @@ const Details = ({
       <DeleteButton id={id} />
     </div>
   );
-
   const updateData = async () => {
-    const res = await fetch(`/api/orders/${id}`, {
-      method: "PUT",
-
-      headers: {
-        "Content-Type": "application/json",
+    const res = await axiosClient.put(`/orders/${id}`, {
+      data: {
+        title: newTitle,
+        category: newCategory,
+        price: newPrice,
+        discount: newDiscount,
+        count: newCount,
+        total: newTotal,
       },
-
-      body: JSON.stringify({
-        data: {
-          title: newTitle,
-          category: newCategory,
-          price: newPrice,
-          discount: newDiscount,
-          count: newCount,
-          total: newTotal,
-        },
-      }),
     });
 
-    return res.json();
+    return res.data;
   };
 
   const editForm = async (e: FormEvent<HTMLFormElement>) => {
@@ -105,12 +104,17 @@ const Details = ({
     setEdit(false);
   };
 
+  useEffect(() => {
+    if (inputRef.current) inputRef.current.focus();
+  });
+
   const updateForm = (
     <form
       onSubmit={editForm}
       className="grid grid-cols-3 border border-white sm:grid-cols-7 justify-evenly items-center gap-3.5"
     >
       <input
+        ref={inputRef}
         type="text"
         value={newTitle}
         className="input-u"

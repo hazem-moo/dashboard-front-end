@@ -1,7 +1,13 @@
 "use client";
 
 import { postDataOrder } from "@/utils/types";
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 function Form() {
   const [title, setTitle] = useState<string>("");
@@ -11,6 +17,7 @@ function Form() {
   const [discount, setDiscount] = useState<number | string>("");
   const [total, setTotal] = useState(0);
   const [write, setWrite] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const PostData = async (data: postDataOrder) => {
     const res = await fetch("/api/orders", {
@@ -49,6 +56,10 @@ function Form() {
     }
   };
 
+  useEffect(() => {
+    if (inputRef.current) inputRef.current.focus();
+  });
+
   return (
     <section className="my-5">
       <form
@@ -61,6 +72,7 @@ function Form() {
           className="input col-span-full w-[95%] mx-auto"
           value={title}
           required
+          ref={inputRef}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setTitle(e.target.value)
           }
